@@ -1,8 +1,13 @@
+import streamlit as st
 import pickle
 import re
-import streamlit as st
-from nltk.corpus import stopwords
 import os
+import nltk
+
+nltk.download('stopwords')
+
+from nltk.corpus import stopwords
+
 
 import base64
 
@@ -64,4 +69,5 @@ if st.button("Analyze Sentiment"):
             st.success(f"this tweet shows positive sentiment!\n\n")
         else:
             st.error(f"This tweet shows negative sentiment.Be kinder!\n")
+
 
