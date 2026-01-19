@@ -2,17 +2,25 @@ import streamlit as st
 import pickle
 import re
 import os
-import nltk
 import base64
 
-NLTK_DATA_DIR = os.path.join(os.getcwd(), "nltk_data")
-os.makedirs(NLTK_DATA_DIR, exist_ok=True)
+STOPWORDS = set("""
+a about above after again against all am an and any are arent as at
+be because been before being below between both but by
+can cant cannot could couldnt did didnt do does doesnt doing dont down during
+each few for from further
+had hadnt has hasnt have havent having he hed hell hes her here heres hers herself him himself his how hows
+i id ill im ive if in into is isnt it its itself
+lets me more most mustnt my myself
+no nor not of off on once only or other ought our ours ourselves out over own
+same shant she shed shell shes should shouldnt so some such
+than that thats the their theirs them themselves then there theres these they theyd theyll theyre theyve this those through to too
+under until up very
+was wasnt we wed well were weve were werent what whats when whens where wheres which while who whos whom why whys with wont would wouldnt
+you youd youll youre youve your yours yourself yourselves
+""".split())
 
-nltk.data.path.append(NLTK_DATA_DIR)
 
-nltk.download("stopwords", download_dir=NLTK_DATA_DIR)
-
-from nltk.corpus import stopwords
 
 def set_background(image_file):
     with open(image_file, "rb") as f:
@@ -45,8 +53,9 @@ def clean_text(text):
     text = text.lower()
     text = re.sub(r"http\S+|www\S+|@\w+|#","", text)
     text = re.sub(r"[^a-z\s]", "", text)
-    text = " ".join([w for w in text.split() if w not in stop_words])
+    text = " ".join([w for w in text.split() if w not in STOPWORDS])
     return text
+
 
 tweet = st.text_area(
     "Enter your tweet:",
@@ -72,6 +81,4 @@ if st.button("Analyze Sentiment"):
             st.success(f"this tweet shows positive sentiment!\n\n")
         else:
             st.error(f"This tweet shows negative sentiment.Be kinder!\n")
-
-
 
