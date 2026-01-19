@@ -3,13 +3,16 @@ import pickle
 import re
 import os
 import nltk
+import base64
 
-nltk.download('stopwords')
+NLTK_DATA_DIR = os.path.join(os.getcwd(), "nltk_data")
+os.makedirs(NLTK_DATA_DIR, exist_ok=True)
+
+nltk.data.path.append(NLTK_DATA_DIR)
+
+nltk.download("stopwords", download_dir=NLTK_DATA_DIR)
 
 from nltk.corpus import stopwords
-
-
-import base64
 
 def set_background(image_file):
     with open(image_file, "rb") as f:
@@ -69,5 +72,6 @@ if st.button("Analyze Sentiment"):
             st.success(f"this tweet shows positive sentiment!\n\n")
         else:
             st.error(f"This tweet shows negative sentiment.Be kinder!\n")
+
 
 
